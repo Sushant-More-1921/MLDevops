@@ -2,12 +2,34 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\YOUR_USER\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+    }
+
     stages {
-        stage('Setup Python') {
+
+        stage('Checkout Code') {
             steps {
-                bat 'python --version'
-                bat 'python -m venv .venv'
+                echo 'Code successfully pulled from GitHub'
+            }
+        }
+
+        stage('Verify Python') {
+            steps {
+                bat '"%PYTHON%" --version'
+                bat '"%PYTHON%" -m pip --version'
+            }
+        }
+
+        stage('Setup Virtual Environment') {
+            steps {
+                bat '"%PYTHON%" -m venv .venv'
                 bat '.venv\\Scripts\\python.exe -m pip install --upgrade pip'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
                 bat '.venv\\Scripts\\python.exe -m pip install -r requirements.txt'
             }
         }
