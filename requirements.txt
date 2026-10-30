@@ -1,4 +1,4 @@
 pytest
-pandas
+pandas==2.2.3
 numpy
 evidently
